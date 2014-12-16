@@ -11,17 +11,17 @@
 ## the inverse and speeds the calculation of downstream calculations
 
 makeCacheMatrix <- function(x = matrix()) {
-    matrixcache <- NULL
-    set <- function(y) {
-        x <<- y
-        matrixCache <<- NA
+    inversematrix <- NULL        ##  create a empty instance of the matrix cache
+    set <- function(y) {         ##  defines the set function
+        x <<- y                  ##  stored the matrix in the global environment
+        inversematrix <<- NULL   ##  creates a null instance to store in the global environment
     }
-    get <- function() x
-    setmatrix <- function(solve) matrixcache <<- solve
-    getmatrix <- function() matrixcache
-    list(set=set,get=get,
-         setmatrix=setmatrix,
-         getmatrix=getmatrix)
+    get <- function() x          ##  defines the get function
+    setinversematrix <- function(solve) inversematrix <<- solve     ##  calculates and store the inverse of a matrix
+    getinversematrix <- function() inversematrix                    ##  returns the matrix invers
+    list(set=set,get=get,                                           ##  stores functions in a list
+         setinversematrix=setinversematrix,
+         getinversematrix=getinversematrix)
 }
 
 
@@ -30,17 +30,17 @@ makeCacheMatrix <- function(x = matrix()) {
 ## is already stored in the global environment.  If it already
 ## exists the cached inverse is returned, if it is not cached 
 ## the inverse is calculated and stored in the global environment
-## and then returns the value to the function caller.x
+## and then returns the value to the function caller
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-        matrixcache <- x$getmatrix()
-        if(!is.null(matrixcache)) {
-            message("getting cached matrix")
-            return(matrixcache)
+        inversematrix <- x$getinversematrix()             ## set the global environmen
+        if(!is.null(inversematrix)) {                     ## checks to see if global variable is set
+            message("getting cached matrix")              ## returns message if using the cached inverse matrix
+            return(inversematrix)                         ## returns the inverse matrix
         }
-        data<-x$get()
-        matrixcache<-solve(data,...)
-        x$setmatrix(matrixcache)
-        matrixcache
+        data<-x$get()                                     ## gets a instance of the matrix
+        inversematrix<-solve(data,...)                    ## calculates and stores the inverse matrix
+        x$setinversematrix(inversematrix)                 ## sets the global variable to the inverse matrix
+        inversematrix                                     ## returns the invere matrix
 }
