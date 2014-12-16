@@ -1,4 +1,3 @@
-## Darren Freeman
 ## Assignment #2 
 ## R programming December 2014
 ## Put comments here that give an overall description of what your
